@@ -15,35 +15,6 @@ public class Driver{
 	private static HashMap<String, Activity> activities = new HashMap<>();
 	private static HashMap<Integer, Passenger> passengers = new HashMap<>();
 	
-	private static void addEligiblePassenger(Passenger p) {
-		
-		double sum = 0.0, balance = p.getBalance();
-		List<Activity> act = p.getPassengerActivities();
-		
-		Category cat = p.getPassengerCategory();
-		
-		for(int i = 0; i < act.size(); i++)
-		{
-			sum += act.get(i).getCost();
-		}
-		sum *= cat.getDiscountIndex();
-		balance -= sum;
-		balance -= cat.getCategoryPrice();
-		if(balance >= 0)
-		{
-			p.updateBalance(balance);
-			for(int i = 0; i < act.size(); i++)
-			{
-				act.get(i).increasePassengerCount();
-			}
-			passengers.put(p.getCode(), p);
-		}
-		else if(balance < 0)
-		{
-			System.out.println("Insufficient Balance for passenger: " + p.getCode());
-		}
-	}
-	
 	private static void populateDestinations() {
 		
 		List<Activity> act = new ArrayList<>();
@@ -142,7 +113,36 @@ public class Driver{
 		act = new Activity("Cycling", "LehLadakh", "Describe Cycling", 400, 5);
 		addEligibleActivity(act);
 	}
-
+		
+	private static void addEligiblePassenger(Passenger p) {
+		
+		double sum = 0.0, balance = p.getBalance();
+		List<Activity> act = p.getPassengerActivities();
+		
+		Category cat = p.getPassengerCategory();
+		
+		for(int i = 0; i < act.size(); i++)
+		{
+			sum += act.get(i).getCost();
+		}
+		sum *= cat.getDiscountIndex();
+		balance -= sum;
+		balance -= cat.getCategoryPrice();
+		if(balance >= 0)
+		{
+			p.updateBalance(balance);
+			for(int i = 0; i < act.size(); i++)
+			{
+				act.get(i).increasePassengerCount();
+			}
+			passengers.put(p.getCode(), p);
+		}
+		else if(balance < 0)
+		{
+			System.out.println("Insufficient Balance for passenger: " + p.getCode());
+		}
+	}
+	
 	private static void populatePassengers() {
 		
 		List<Activity> act = new ArrayList<>();
