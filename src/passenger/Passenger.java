@@ -18,9 +18,12 @@ public class Passenger {
 		this.name = name;
 		this.code = code;
 		this.category = category;
-		this.balance = balance;
-		List<Activity> ls = new ArrayList<>(passengerActivities);
-		this.passengerActivities = ls;
+		if(balance >= 0)
+			this.balance = balance;
+		else
+			balance = 0;
+		List<Activity> LS = new ArrayList<>(passengerActivities);
+		this.passengerActivities = LS;
 	}
 
 	@Override
@@ -84,6 +87,35 @@ public class Passenger {
 				double cost = index * activity.getCost();
 				System.out.println("Price paid: Rs. " + cost);
 			}
+		}
+	}
+	
+	public static void addEligiblePassenger(Passenger p, HashMap<Integer, Passenger> passengers) {
+		
+		double sum = 0.0, balance = p.getBalance();
+		List<Activity> act = p.getPassengerActivities();
+		
+		Category cat = p.getPassengerCategory();
+		
+		for(int i = 0; i < act.size(); i++)
+		{
+			sum += act.get(i).getCost();
+		}
+		sum *= cat.getDiscountIndex();
+		balance -= sum;
+		balance -= cat.getCategoryPrice();
+		if(balance >= 0)
+		{
+			p.updateBalance(balance);
+			for(int i = 0; i < act.size(); i++)
+			{
+				act.get(i).increasePassengerCount();
+			}
+			passengers.put(p.getCode(), p);
+		}
+		else if(balance < 0)
+		{
+			System.out.println("Insufficient Balance for passenger: " + p.getCode());
 		}
 	}
 

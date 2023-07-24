@@ -9,7 +9,9 @@ public class Destination {
 
 	public Destination(String name, List<Activity> actList) {
 		this.name = name;
-		this.actList = actList;
+		List<Activity> active = new ArrayList<>(actList);
+		this.actList = active;
+		
 	}
 	
 	public Destination(String name) {

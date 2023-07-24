@@ -7,27 +7,29 @@ public class Category {
 	private double categoryPrice;
 
 	public Category(String name) {
-		this.name = name;
-		if (name.equals("Standard"))
+		
+		if (name.equals("Gold"))
 		{
-			discountIndex = 1.0;
-			categoryPrice = 0.0;
-		}
-			
-		else if (name.equals("Gold"))
-		{
+			this.name = name;
 			discountIndex = 0.9;
 			categoryPrice = 100.0;
 		}
 		else if (name.equals("Premium"))
 		{
+			this.name = name;
 			discountIndex = 0.0;
 			categoryPrice = 200.0;
+		}
+		else
+		{
+			this.name = "Standard";
+			discountIndex = 1.0;
+			categoryPrice = 0.0;
 		}
 	}
 
 	public String getName() {
-		return name;
+			return name;
 	}
 
 	public double getDiscountIndex() {

@@ -14,7 +14,7 @@ public class Driver{
 	private static HashMap<String, Destination> destinations = new HashMap<>();
 	private static HashMap<String, Activity> activities = new HashMap<>();
 	private static HashMap<Integer, Passenger> passengers = new HashMap<>();
-	
+
 	private static void populateDestinations() {
 		
 		List<Activity> act = new ArrayList<>();
@@ -39,110 +39,52 @@ public class Driver{
 		destinations.put("LehLadakh", new Destination("Leh Ladakh"));
 		act.clear();
 	}
-	
-	private static void addEligibleActivity(Activity act) {
-		
-		String destKey = act.getDestKey();
-		if(destinations.containsKey(destKey))
-		{
 
-			activities.put(act.getActName(), act);
-			Destination des = destinations.get(destKey);
-			if(des.getActList() == null)
-			{
-				String desName = destinations.get(destKey).getName();
-				destinations.remove(destKey);
-				List<Activity> ls = new ArrayList<>();
-				ls.add(act);
-				destinations.put(destKey, new Destination(desName, ls));
-			}
-			else
-			{
-				//System.out.println("here "+ des.getActList().size());
-				destinations.put(destKey, des.addActivity(act));
-			}
-		}
-		else
-		{
-			System.out.println("Error! Attempting to add activity without a destination.");
-			return;
-		}
-	}
-	
 	private static void populateActivities() {
 	
 		Activity act;
 		
 		//Activity 1
 		act = new Activity("Ropeway", "Manali", "Describe Ropeway", 150, 3);
-		addEligibleActivity(act);
+		Activity.addEligibleActivity(act, activities, destinations);
 		
 		//Activity 2
 		act = new Activity("Skiing", "Manali", "Describe Skiing", 100, 2);
-		addEligibleActivity(act);
+		Activity.addEligibleActivity(act, activities, destinations);
 		
 		//Activity 3
 		act = new Activity("HorseRiding", "Shimla", "Describe Horse Riding", 250, 4);
-		addEligibleActivity(act);
+		Activity.addEligibleActivity(act, activities, destinations);
 		
 		//Activity 4
 		act = new Activity("IceSkating", "Shimla", "Describe Ice Skating", 250, 1);
-		addEligibleActivity(act);
+		Activity.addEligibleActivity(act, activities, destinations);
 		
 		//Activity 5
 		act = new Activity("Boating", "Nainital", "Describe Boating", 50, 2);
-		addEligibleActivity(act);
+		Activity.addEligibleActivity(act, activities, destinations);
 		
 		//Activity 6
 		act = new Activity("RiverRafting", "Rishikesh", "Describe River Rafting", 150, 3);
-		addEligibleActivity(act);
+		Activity.addEligibleActivity(act, activities, destinations);
 		
 		//Activity 7
 		act = new Activity("Camping", "Rishikesh", "Describe Camping", 450, 1);
-		addEligibleActivity(act);
+		Activity.addEligibleActivity(act, activities, destinations);
 		
 		//Activity 8
 		act = new Activity("Trekking", "LehLadakh", "Describe Trekking", 350, 3);
-		addEligibleActivity(act);
+		Activity.addEligibleActivity(act, activities, destinations);
 		
 		//Activity 9
 		act = new Activity("Biking", "LehLadakh", "Describe Biking", 500, 2);
-		addEligibleActivity(act);
+		Activity.addEligibleActivity(act, activities, destinations);
 		
 		//Activity 10
 		act = new Activity("Cycling", "LehLadakh", "Describe Cycling", 400, 5);
-		addEligibleActivity(act);
+		Activity.addEligibleActivity(act, activities, destinations);
 	}
-		
-	private static void addEligiblePassenger(Passenger p) {
-		
-		double sum = 0.0, balance = p.getBalance();
-		List<Activity> act = p.getPassengerActivities();
-		
-		Category cat = p.getPassengerCategory();
-		
-		for(int i = 0; i < act.size(); i++)
-		{
-			sum += act.get(i).getCost();
-		}
-		sum *= cat.getDiscountIndex();
-		balance -= sum;
-		balance -= cat.getCategoryPrice();
-		if(balance >= 0)
-		{
-			p.updateBalance(balance);
-			for(int i = 0; i < act.size(); i++)
-			{
-				act.get(i).increasePassengerCount();
-			}
-			passengers.put(p.getCode(), p);
-		}
-		else if(balance < 0)
-		{
-			System.out.println("Insufficient Balance for passenger: " + p.getCode());
-		}
-	}
-	
+
 	private static void populatePassengers() {
 		
 		List<Activity> act = new ArrayList<>();
@@ -152,27 +94,27 @@ public class Driver{
 		act.add(activities.get("Ropeway"));
 		act.add(activities.get("Skiing"));
 		p = new Passenger("Ramesh", 101, new Category("Standard"), 500, act);
-		addEligiblePassenger(p);
+		Passenger.addEligiblePassenger(p, passengers);
 		act.clear();
 		
 		//Passenger 2
 		act.add(activities.get("Boating"));
 		act.add(activities.get("Camping"));
 		p = new Passenger("Suresh", 102, new Category("Gold"), 700, act);
-		addEligiblePassenger(p);
+		Passenger.addEligiblePassenger(p, passengers);
 		act.clear();
 		
 		//Passenger 3
 		act.add(activities.get("Trekking"));
 		act.add(activities.get("Biking"));
 		p = new Passenger("Mahesh", 103, new Category("Gold"), 900, act);
-		addEligiblePassenger(p);
+		Passenger.addEligiblePassenger(p, passengers);
 		act.clear();
 		
 		//Passenger 4
 		act.add(activities.get("Trekking"));
 		p = new Passenger("Mukesh", 104, new Category("Premium"), 1000, act);
-		addEligiblePassenger(p);
+		Passenger.addEligiblePassenger(p, passengers);
 		act.clear();
 		
 		//Passenger 5
@@ -180,9 +122,8 @@ public class Driver{
 		act.add(activities.get("Ropeway"));
 		act.add(activities.get("IceSkating"));
 		p = new Passenger("Rajiv", 105, new Category("Premium"), 1200, act);
-		addEligiblePassenger(p);
+		Passenger.addEligiblePassenger(p, passengers);
 		act.clear();
-		
 	}
 	
 	private static void populatePackages() {
@@ -216,15 +157,7 @@ public class Driver{
 
 		return;
 	}
-	
-	private static HashMap<String, TravelPackage> getTravelPackages() {
-		return travelPackages;
-	}
-	
-	private static HashMap<Integer, Passenger> getPassengers() {
-		return passengers;
-	}
-	
+		
 	public static void main(String[] args) {
 		
 		System.out.println("Populating Destinations...");
@@ -250,7 +183,7 @@ public class Driver{
 			input = sc.nextInt();
 			if(input == 1 || input == 2)
 			{
-				HashMap<String, TravelPackage> TP = new HashMap<>(getTravelPackages());
+				HashMap<String, TravelPackage> TP = new HashMap<>(travelPackages);
 				System.out.println("The following Packages are there:\n");
 				for (Map.Entry <String, TravelPackage> entry : TP.entrySet())
 				{
@@ -259,7 +192,7 @@ public class Driver{
 				System.out.println("\n\nEnter the key for the package: ");
 				String packageKey = sc.next();
 				TravelPackage tp = TP.get(packageKey);
-				if(!getTravelPackages().containsKey(packageKey))
+				if(!travelPackages.containsKey(packageKey))
 				{
 					System.out.println("Travel Package doesnt exist.");
 					continue;
@@ -275,7 +208,7 @@ public class Driver{
 			}
 			else if(input == 3)
 			{
-				HashMap<Integer, Passenger> PASS = new HashMap<>(getPassengers());
+				HashMap<Integer, Passenger> PASS = new HashMap<>(passengers);
 				System.out.println("The following passengers are there:\n");
 				for (Map.Entry <Integer, Passenger> entry : PASS.entrySet())
 				{
@@ -284,7 +217,7 @@ public class Driver{
 				System.out.println("\n\nEnter Passenger code: ");
 				int passengerCode = sc.nextInt();
 				Passenger p = PASS.get(passengerCode);
-				if(getPassengers().containsKey(passengerCode))
+				if(passengers.containsKey(passengerCode))
 					p.printPassenger();
 				else
 					System.out.println("Passenger doesn't exist.");
@@ -292,7 +225,7 @@ public class Driver{
 			else if(input == 4)
 			{
 				TravelPackage tp;
-				for(Map.Entry<String, TravelPackage> entry : getTravelPackages().entrySet())
+				for(Map.Entry<String, TravelPackage> entry : travelPackages.entrySet())
 				{
 					tp = entry.getValue();
 					tp.printEmptySpaces();

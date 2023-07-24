@@ -1,5 +1,9 @@
 package travelpacks;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class Activity {
 
 	private String actName;
@@ -10,14 +14,6 @@ public class Activity {
 
 	private int passengerCount;
 
-	public Activity(String actName, String description, int cost, int capacity) {
-
-		this.actName = actName;
-		this.description = description;
-		this.cost = cost;
-		this.capacity = capacity;
-		passengerCount = 0;
-	}
 	public Activity(String actName, String destKey, String description, int cost, int capacity) {
 
 		this.destKey = destKey;
@@ -59,7 +55,40 @@ public class Activity {
 	}
 
 	public int emptySpaces() {
-		return capacity - passengerCount;
+		return (capacity-passengerCount);
 	}
+	
+	public int getPassengerCount() {
+		return passengerCount;
+	}
+	
+	public static void addEligibleActivity(Activity act, HashMap<String, Activity> activities, HashMap<String, Destination> destinations) {
+		
+		String destKey = act.getDestKey();
+		if(destinations.containsKey(destKey))
+		{
+
+			activities.put(act.getActName(), act);
+			Destination des = destinations.get(destKey);
+			if(des.getActList() == null)
+			{
+				String desName = destinations.get(destKey).getName();
+				destinations.remove(destKey);
+				List<Activity> ls = new ArrayList<>();
+				ls.add(act);
+				destinations.put(destKey, new Destination(desName, ls));
+			}
+			else
+			{
+				destinations.put(destKey, des.addActivity(act));
+			}
+		}
+		else
+		{
+			System.out.println("Error! Attempting to add activity without a destination.");
+			return;
+		}
+	}
+	
 
 }
