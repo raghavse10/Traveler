@@ -11,9 +11,9 @@ public class Activity {
 	private String description;
 	private int cost;
 	private int capacity;
+	private int passengerCount;		//to keep a count of passengers enrolled in this activity
 
-	private int passengerCount;
-
+	//Constructor to create a new activity
 	public Activity(String actName, String destKey, String description, int cost, int capacity) {
 
 		this.destKey = destKey;
@@ -21,9 +21,10 @@ public class Activity {
 		this.description = description;
 		this.cost = cost;
 		this.capacity = capacity;
-		passengerCount = 0;
+		passengerCount = 0;		//initializing with 0 passengers
 	}
 
+	//Printing the activity
 	@Override
 	public String toString() {
 		String str;
@@ -47,13 +48,16 @@ public class Activity {
 	public String getDestKey() {
 		return destKey;
 	}
+	
+	//to increase passenger count when they choose this activity
 	public void increasePassengerCount() {
 		if (passengerCount < capacity)
 			passengerCount++;
 		else
 			System.out.println("Can't exceed capacity.");
 	}
-
+	
+	//Calculating empty spaces
 	public int emptySpaces() {
 		return (capacity-passengerCount);
 	}
@@ -62,6 +66,8 @@ public class Activity {
 		return passengerCount;
 	}
 	
+	//will check if the new activity's destination already exists or not
+	//will not add the activity if destination doesn't exists
 	public static void addEligibleActivity(Activity act, HashMap<String, Activity> activities, HashMap<String, Destination> destinations) {
 		
 		String destKey = act.getDestKey();
@@ -89,6 +95,4 @@ public class Activity {
 			return;
 		}
 	}
-	
-
 }

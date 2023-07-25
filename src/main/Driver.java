@@ -10,6 +10,7 @@ import travelpacks.TravelPackage;
 
 public class Driver{
 
+	//populating all data when Main() runs
 	private static HashMap<String, TravelPackage> travelPackages = new HashMap<>();
 	private static HashMap<String, Destination> destinations = new HashMap<>();
 	private static HashMap<String, Activity> activities = new HashMap<>();
@@ -172,6 +173,8 @@ public class Driver{
 		System.out.println("Welcome to traveler.\n");
 		Scanner sc = new Scanner(System.in);
 		int input = 0;
+		
+		//running the application till user Exits.
 		while(input != 5)
 		{
 			System.out.println("\nChoose from the following options:\n");
@@ -181,20 +184,22 @@ public class Driver{
 			System.out.println("4. Print all activities that still have spaces available.");
 			System.out.println("5. Exit\n");
 			input = sc.nextInt();
+			
+			//Combining since both input = 1 and input = 2 require display of packages and choosing
 			if(input == 1 || input == 2)
 			{
 				HashMap<String, TravelPackage> TP = new HashMap<>(travelPackages);
 				System.out.println("The following Packages are there:\n");
 				for (Map.Entry <String, TravelPackage> entry : TP.entrySet())
 				{
-					System.out.print(entry.getValue().getPackageName()+ "; ");
+					System.out.print(entry.getValue().getPackageName()+ "; ");	//Printing all packages
 				}
 				System.out.println("\n\nEnter the key for the package: ");
 				String packageKey = sc.next();
 				TravelPackage tp = TP.get(packageKey);
-				if(!travelPackages.containsKey(packageKey))
+				if(!travelPackages.containsKey(packageKey))		//checking if package exists or not
 				{
-					System.out.println("Travel Package doesnt exist.");
+					System.out.println("Travel Package doesn't exist.");
 					continue;
 				}
 				if(input == 1)
@@ -206,6 +211,7 @@ public class Driver{
 					tp.printPassList();
 				}
 			}
+			
 			else if(input == 3)
 			{
 				HashMap<Integer, Passenger> PASS = new HashMap<>(passengers);
@@ -217,11 +223,12 @@ public class Driver{
 				System.out.println("\n\nEnter Passenger code: ");
 				int passengerCode = sc.nextInt();
 				Passenger p = PASS.get(passengerCode);
-				if(passengers.containsKey(passengerCode))
+				if(passengers.containsKey(passengerCode))		//checking if passenger exists or not
 					p.printPassenger();
 				else
 					System.out.println("Passenger doesn't exist.");
 			}
+			
 			else if(input == 4)
 			{
 				TravelPackage tp;
@@ -234,7 +241,7 @@ public class Driver{
 			}
 		}
 		sc.close();
-		System.out.println("\nThanks for using Traveler.");
+		System.out.println("\nThanks for using Traveler.");		//Exiting
 		return;
 	}
 		

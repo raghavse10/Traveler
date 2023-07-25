@@ -8,9 +8,10 @@ public class TravelPackage {
 
 	private String name;
 	private int passengerCapacity;
-	private List<Destination> itinerary;
-	private List<Passenger> passList;
+	private List<Destination> itinerary;	//List of all destinations at this package
+	private List<Passenger> passList;		//List of all passengers who chose this package
 
+	//Constructor to create Travel Package
 	public TravelPackage(String name, int passengerCapacity, List<Destination> itinerary, List<Passenger> passList) {
 		this.name = name;
 		this.passengerCapacity = passengerCapacity;
@@ -24,6 +25,7 @@ public class TravelPackage {
 		return name;
 	}
 
+	//Prints the itinerary of a package
 	public void printItinerary() {
 
 		System.out.println("Package Name: "+name);
@@ -32,7 +34,7 @@ public class TravelPackage {
 			System.out.println(itinerary.get(i-1).getActList());
 		}
 	}
-
+	//Prints the passengers who chose this package
 	public void printPassList() {
 
 		System.out.println("Package Name: " + name);
@@ -40,7 +42,8 @@ public class TravelPackage {
 		System.out.println("Passengers currently enrolled: " + passList.size());
 		System.out.println(passList);
 	}
-
+	
+	//Prints the empty spaces of all activities at all destinations in this package
 	public void printEmptySpaces() {
 		for (int i = 0; i < itinerary.size(); i++) {
 			Destination destination = itinerary.get(i);

@@ -10,15 +10,15 @@ public class Passenger {
 	private int code;
 	private Category category;
 	private double balance;
+	private List<Activity> passengerActivities;		//List of all activities chosen by a Passenger
 
-	private List<Activity> passengerActivities;
-
+	//Constructor to create a Passenger
 	public Passenger(String name, int code, Category category, double balance, List<Activity> passengerActivities) {
 
 		this.name = name;
 		this.code = code;
 		this.category = category;
-		if(balance >= 0)
+		if(balance >= 0)				//will only add non-negative balance
 			this.balance = balance;
 		else
 			balance = 0;
@@ -57,6 +57,7 @@ public class Passenger {
 		return category;
 	}
 	
+	// Print all Passenger's details along with the price paid for each activity they have selected
 	public void printPassenger() {
 		System.out.println("Passenger Name: " + name);
 		System.out.println("Passenger Code: " + code);
@@ -71,10 +72,10 @@ public class Passenger {
 		System.out.println("\nAll Activities signed up: ");
 
 		for (int i = 0; i < passengerActivities.size(); i++) {
-			System.out.println("\n");
+
 			Activity activity = passengerActivities.get(i);
 
-			System.out.println("Activity: " + activity.getActName());
+			System.out.println("\nActivity: " + activity.getActName());
 			System.out.println("Destination: " + activity.getDestKey());
 
 			if (categoryName.equals("Standard")) {
@@ -90,6 +91,7 @@ public class Passenger {
 		}
 	}
 	
+	//will only add the passenger if the final balance is non-negative after deducting the activity cost.
 	public static void addEligiblePassenger(Passenger p, HashMap<Integer, Passenger> passengers) {
 		
 		double sum = 0.0, balance = p.getBalance();

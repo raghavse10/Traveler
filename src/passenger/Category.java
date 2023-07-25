@@ -3,9 +3,12 @@ package passenger;
 public class Category {
 
 	private String name;
-	private double discountIndex;
-	private double categoryPrice;
+	private double discountIndex;	//discount when a Gold or Premium member purchases an activity
+	private double categoryPrice;	//adding a subscription charge for being a Gold or Premium member
 
+	//the categoryIndex and categoryPrice are adjustable if they change in future(not hard coded)
+	
+	//Constructor to create a category for a new passenger
 	public Category(String name) {
 		
 		if (name.equals("Gold"))
